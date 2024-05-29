@@ -9,11 +9,27 @@ from .models.reply_model import Reply
 from .models.reply_likes_model import Reply_like
 from .models.mission_model import Missions
 from .models.alert_model import Alert
+from rest_framework.validators import UniqueValidator
+from project_backend.models.users_model import Users
 
 class Users_serializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=Users.objects.all())]
+    )
     class Meta:
         model = Users
         fields = '__all__'
+
+    def create(self, validated_data):
+        user = Users.objects.create(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+class login_serializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
 
 class Article_serializer(serializers.ModelSerializer):
     class Meta:
