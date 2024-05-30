@@ -1,10 +1,11 @@
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from project_backend.models.users_model import Users
 from ..serializers import Users_serializer, login_serializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(['POST'])
 def add(request):
@@ -42,11 +43,14 @@ def login(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get(request):
-    id = request.query_params.get('id')
+    username = request.query_params.get('username')
     try:
-        if id:
-            user = Users.objects.get(pk=id)
+        if username:
+            user = Users.objects.get(
+                username=username
+            )
             serializer = Users_serializer(user, many=False)
         else:
             users = Users.objects.all()
@@ -57,6 +61,7 @@ def get(request):
 
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
 def update(request, pk):
     try:
         user = Users.objects.get(pk=pk)
@@ -72,6 +77,7 @@ def update(request, pk):
 
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete(request, pk):
     try:
         user = Users.objects.get(pk=pk)
