@@ -56,9 +56,10 @@ def get(request):
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
-def update(request, pk):
+def update(request):
+    username = request.user
     try:
-        user = Users.objects.get(pk=pk)
+        user = Users.objects.get(username=username)
     except Users.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -73,8 +74,9 @@ def update(request, pk):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete(request, pk):
+    username = request.user
     try:
-        user = Users.objects.get(pk=pk)
+        user = Users.objects.get(username=username)
     except Users.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     user.delete()

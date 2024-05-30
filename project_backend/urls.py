@@ -18,7 +18,7 @@ urlpatterns = [
     path("users/add/", users_controller.add, name="add_user"),
     path("users/login/", users_controller.login, name="login"),
     path("users/get/", users_controller.get, name="get_user"),
-    path("users/update/<int:pk>/", users_controller.update, name="update_user"),
+    path("users/update/", users_controller.update, name="update_user"),
     path("users/delete/<int:pk>/", users_controller.delete, name="delete_user"),
 
     #article urls
