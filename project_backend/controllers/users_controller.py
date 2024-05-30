@@ -45,16 +45,10 @@ def login(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get(request):
-    username = request.query_params.get('username')
+    username = request.user
     try:
-        if username:
-            user = Users.objects.get(
-                username=username
-            )
-            serializer = Users_serializer(user, many=False)
-        else:
-            users = Users.objects.all()
-            serializer = Users_serializer(users, many=True)
+        user = Users.objects.get(username=username)
+        serializer = Users_serializer(user, many=False)
         return Response(serializer.data)
     except Users.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
