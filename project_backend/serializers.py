@@ -27,6 +27,15 @@ class Users_serializer(serializers.ModelSerializer):
         user.save()
         return user
 
+    def update(self, instance, validated_data):
+        for field, value in validated_data.items():
+            if field in self.Meta.fields:
+                setattr(instance, field, value)
+        if 'password' in validated_data:
+            instance.set_password(validated_data['password'])
+        instance.save()
+        return instance
+
 class login_serializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
