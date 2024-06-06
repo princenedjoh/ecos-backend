@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt'
 ]
 
+SIMPLE_JWT = {
+    'JWT_ACCESS_TOKEN_EXPIRE_MINUTES': 60 * 24, #1 day
+    'JWT_REFRESH_TOKEN_EXPIRE_MINUTES': 10080, #7 days
+}
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
