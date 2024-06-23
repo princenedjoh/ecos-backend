@@ -11,6 +11,7 @@ from .models.mission_model import Missions
 from .models.alert_model import Alert
 from rest_framework.validators import UniqueValidator
 from project_backend.models.users_model import Users
+from project_backend.models.settings_model import Settings
 
 class Users_serializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -43,6 +44,11 @@ class login_serializer(serializers.Serializer):
 class Article_serializer(serializers.ModelSerializer):
     class Meta:
         model = Article
+        fields = '__all__'
+
+class Settings_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Settings
         fields = '__all__'
 
 class Article_category_serializer(serializers.ModelSerializer):

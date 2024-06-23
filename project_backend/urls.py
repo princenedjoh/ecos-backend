@@ -10,6 +10,7 @@ from project_backend.controllers import comment_like_controller
 from project_backend.controllers import reply_controller
 from project_backend.controllers import reply_like_controller
 from project_backend.controllers import missions_controller
+from project_backend.controllers import settings_controller
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -74,4 +75,11 @@ urlpatterns = [
     path("missions/get/", missions_controller.get, name="get_mission"),
     path("missions/update/<int:pk>/", missions_controller.update, name="update_mission"),
     path("missions/delete/<int:pk>/", missions_controller.delete, name="delete_mission"),
+
+    #settings urls
+    path("settings/add/", settings_controller.add, name="add_settings"),
+    path("settings/get/", settings_controller.get, name="get_settings"),
+    path("settings/search/", settings_controller.search, name="search_settings"),
+    path("settings/update/<int:pk>/", settings_controller.update, name="update_settings"),
+    path("settings/delete/<int:pk>/", settings_controller.delete, name="delete_settings"),
 ]

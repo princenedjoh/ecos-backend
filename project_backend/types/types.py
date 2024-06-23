@@ -9,3 +9,8 @@ alert_category = (
     ("atmosphere", "atmosphere"),
     ("water", "water")
 )
+
+settings = (
+    ("earthquake_location", "earthquake_location"),
+    ("air_quality", "air_quality")
+)
