@@ -1,3 +1,4 @@
+from datetime import timedelta
 """
 Django settings for djangoBackend project.
 
@@ -43,8 +44,8 @@ INSTALLED_APPS = [
 ]
 
 SIMPLE_JWT = {
-    'JWT_ACCESS_TOKEN_EXPIRE_MINUTES': 60 * 24, #1 day
-    'JWT_REFRESH_TOKEN_EXPIRE_MINUTES': 10080, #7 days
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
 }
 
 
