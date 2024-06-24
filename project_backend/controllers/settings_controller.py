@@ -73,27 +73,32 @@ def search(request):
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
-def update(request, pk):
-    user = Users_serializer(Users.objects.get(username=request.user), many=False).data['id']
+def update(request):
+    user = request.user
     name = request.query_params.get('name')
     value = request.query_params.get('value')
+    print(user, name, value)
 
-    filter_criteria = {'user': user}
+    filter_criteria = {'user': user.id}
     if name:
         filter_criteria['name'] = name
     if value:
         filter_criteria['value'] = value
-    try:
-        settings = Settings.objects.filter(**filter_criteria)
-    except Settings.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    if not name and not value:
+        return Response('Please input a value or name param', status=status.HTTP_400_BAD_REQUEST)
     
-    serializer = Settings_serializer(settings, data=request.data, partial=True)
-
+    settings = Settings.objects.filter(**filter_criteria)
+    
+    if not settings.exists():
+        return Response('No settings found', status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = Settings_serializer(settings[0], data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['DELETE'])

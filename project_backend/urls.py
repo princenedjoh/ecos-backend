@@ -80,6 +80,6 @@ urlpatterns = [
     path("settings/add/", settings_controller.add, name="add_settings"),
     path("settings/get/", settings_controller.get, name="get_settings"),
     path("settings/search/", settings_controller.search, name="search_settings"),
-    path("settings/update/<int:pk>/", settings_controller.update, name="update_settings"),
+    path("settings/update/", settings_controller.update, name="update_settings"),
     path("settings/delete/<int:pk>/", settings_controller.delete, name="delete_settings"),
 ]
