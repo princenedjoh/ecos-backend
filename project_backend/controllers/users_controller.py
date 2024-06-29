@@ -52,6 +52,21 @@ def get(request):
         return Response(serializer.data)
     except Users.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+def search(request):
+    id = request.query_params.get('user')
+
+    filter_criteria = {}
+    if id:
+        filter_criteria['id'] = id
+
+    try:
+        user = Users.objects.filter(**filter_criteria)
+        serializer = Users_serializer(user, many=True)
+        return Response(serializer.data)
+    except Users.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['PATCH'])

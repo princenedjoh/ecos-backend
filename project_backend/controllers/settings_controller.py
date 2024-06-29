@@ -51,7 +51,7 @@ def search(request):
 
     filter_criteria = {}
     if user:
-        filter_criteria['user'] = name
+        filter_criteria['user'] = user
     if name:
         filter_criteria['name'] = name
     if value:
