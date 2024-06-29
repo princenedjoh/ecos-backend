@@ -16,7 +16,7 @@ def add(request):
         user = serializer.validated_data.get('user')
         name = serializer.validated_data.get('name')
         if Settings.objects.filter(user=user, name=name).exists():
-            return Response('Setting with this name already exists for this user', status=status.HTTP_400_BAD_REQUEST)
+            return Response('Setting with this name already exists for this user', status=status.HTTP_409_CONFLICT)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -37,9 +37,6 @@ def get(request):
 
     try:
         settings = Settings.objects.filter(**filter_criteria)
-        if not settings.exists():
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        
         serializer = Settings_serializer(settings, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
@@ -62,9 +59,6 @@ def search(request):
 
     try:
         settings = Settings.objects.filter(**filter_criteria)
-        if not settings.exists():
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        
         serializer = Settings_serializer(settings, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:

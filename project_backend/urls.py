@@ -67,7 +67,8 @@ urlpatterns = [
     #alert urls
     path("alert/add/", alert_controller.add, name="add_alert"),
     path("alert/get/", alert_controller.get, name="get_alert"),
-    path("alert/update/<int:pk>/", alert_controller.update, name="update_alert"),
+    path("alert/search/", alert_controller.search, name="serch_alert"),
+    path("alert/update/", alert_controller.update, name="update_alert"),
     path("alert/delete/<int:pk>/", alert_controller.delete, name="delete_alert"),
 
     #missions urls

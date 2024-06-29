@@ -7,7 +7,8 @@ severity = {
 alert_category = (
     ("land", "land"),
     ("atmosphere", "atmosphere"),
-    ("water", "water")
+    ("water", "water"),
+    ("earthquake", "earthquake")
 )
 
 settings = (
