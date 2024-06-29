@@ -11,12 +11,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def add(request):
+def add(request, user_id):
     try:
-        user = Users_serializer(Users.objects.get(username=request.user), many=False).data
         request_data = request.data.copy()  # Make sure the data is mutable
-        request_data['user'] = user['id']
+        request_data['user'] = user_id
         request_data['date'] = datetime.now()
         
         serializer = Alert_serializer(data=request_data)

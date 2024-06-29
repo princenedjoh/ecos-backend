@@ -66,7 +66,7 @@ urlpatterns = [
     path("reply/like/delete/<int:pk>/", reply_like_controller.delete, name="delete_reply_like"),
 
     #alert urls
-    path("alert/add/", alert_controller.add, name="add_alert"),
+    path("alert/add/<int:user_id>/", alert_controller.add, name="add_alert"),
     path("alert/get/", alert_controller.get, name="get_alert"),
     path("alert/search/", alert_controller.search, name="serch_alert"),
     path("alert/update/", alert_controller.update, name="update_alert"),
