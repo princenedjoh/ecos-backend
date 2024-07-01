@@ -34,6 +34,7 @@ def get(request):
     user_data = Users_serializer(Users.objects.get(username=request.user), many=False)
 
     user = user_data.data['id']
+    id = request.query_params.get('id')
     title = request.query_params.get('title')
     description = request.query_params.get('description')
     date = request.query_params.get('date')
@@ -54,6 +55,8 @@ def get(request):
         filter_criteria['severity'] = severity
     if category:
         filter_criteria['category'] = category
+    if id:
+        filter_criteria['id'] = id
 
     try:
         alert = Alert.objects.filter(**filter_criteria)
