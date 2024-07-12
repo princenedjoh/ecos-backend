@@ -11,6 +11,7 @@ from project_backend.controllers import reply_controller
 from project_backend.controllers import reply_like_controller
 from project_backend.controllers import missions_controller
 from project_backend.controllers import settings_controller
+from project_backend.controllers import aimodel_controller
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -84,4 +85,9 @@ urlpatterns = [
     path("settings/search/", settings_controller.search, name="search_settings"),
     path("settings/update/", settings_controller.update, name="update_settings"),
     path("settings/delete/<int:pk>/", settings_controller.delete, name="delete_settings"),
+
+    #ai models urls
+    path("ai/earthquake/get/", aimodel_controller.get_earthquake, name="get_earthquake"),
+    path("ai/deforestation/get/", aimodel_controller.get_deforestation, name="get_deforestation"),
+    path("ai/airquality/get/", aimodel_controller.get_airquality, name="get_airquality"),
 ]
