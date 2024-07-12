@@ -2,4 +2,4 @@ django
 djangorestframework
 djangorestframework-simplejwt
 numpy
-sklearn
+scikit-learn
