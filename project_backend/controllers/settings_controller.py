@@ -79,7 +79,14 @@ def update(request):
     if value:
         filter_criteria['value'] = value
     if not name and not value:
-        return Response('Please input a value or name param', status=status.HTTP_400_BAD_REQUEST)
+        serializer = Settings_serializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data.get('user')
+            name = serializer.validated_data.get('name')
+            if Settings.objects.filter(user=user, name=name).exists():
+                return Response('Setting with this name already exists for this user', status=status.HTTP_409_CONFLICT)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     settings = Settings.objects.filter(**filter_criteria)
     
