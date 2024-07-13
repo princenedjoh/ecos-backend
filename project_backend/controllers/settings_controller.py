@@ -68,17 +68,24 @@ def search(request):
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def update(request):
-    user = request.user
+    user = Users_serializer(Users.objects.get(username=request.user), many=False)
     name = request.query_params.get('name')
-    value = request.query_params.get('value')
-    print(user, name, value)
+    id = user.data['id']
+    request.data['user'] = id
 
-    filter_criteria = {'user': user.id}
+    filter_criteria = {'user': id}
     if name:
         filter_criteria['name'] = name
-    if value:
-        filter_criteria['value'] = value
-    if not name and not value:
+        request.data['name'] = name
+        print(request.data)
+    if not name:
+        return Response('Please input a name param', status=status.HTTP_400_BAD_REQUEST)
+    
+    settings = Settings.objects.filter(**filter_criteria)
+    
+    if not settings.exists():
+        user = Users_serializer(Users.objects.get(username=request.user), many=False)
+        request.data['user'] = user.data['id']
         serializer = Settings_serializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data.get('user')
@@ -87,11 +94,6 @@ def update(request):
                 return Response('Setting with this name already exists for this user', status=status.HTTP_409_CONFLICT)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-    settings = Settings.objects.filter(**filter_criteria)
-    
-    if not settings.exists():
-        return Response('No settings found', status=status.HTTP_404_NOT_FOUND)
     
     serializer = Settings_serializer(settings[0], data=request.data, partial=True)
     if serializer.is_valid():
