@@ -123,23 +123,45 @@ def get_deforestation(request):
 # @permission_classes([IsAuthenticated])
 def get_airquality(request):
     filter_criteria = []
-    latitude = request.query_params.get('latitude')
-    longitude = request.query_params.get('longitude')
-    depth = request.query_params.get('depth')
 
-    if not latitude:
-        return Response('Please provide latitude', status=status.HTTP_400_BAD_REQUEST)
-    if not longitude:
-        return Response('Please provide longitude', status=status.HTTP_400_BAD_REQUEST)
-    if not depth:
-        return Response('Please provide depth', status=status.HTTP_400_BAD_REQUEST)
+    co = request.query_params.get('co')
+    no = request.query_params.get('no')
+    no2 = request.query_params.get('no2')
+    o3 = request.query_params.get('o3')
+    so2 = request.query_params.get('so2')
+    pm2_5 = request.query_params.get('pm2_5')
+    pm10 = request.query_params.get('pm10')
+    nh3 = request.query_params.get('nh3')
 
-    filter_criteria.append(float(latitude))
-    filter_criteria.append(float(longitude))
-    filter_criteria.append(float(depth))
+    print('hello')
+    if not co:
+        return Response('Please provide co', status=status.HTTP_400_BAD_REQUEST)
+    if not no:
+        return Response('Please provide no', status=status.HTTP_400_BAD_REQUEST)
+    if not no2:
+        return Response('Please provide no2', status=status.HTTP_400_BAD_REQUEST)
+    if not o3:
+        return Response('Please provide o3', status=status.HTTP_400_BAD_REQUEST)
+    if not so2:
+        return Response('Please provide so2', status=status.HTTP_400_BAD_REQUEST)
+    if not pm2_5:
+        return Response('Please provide pm2_5', status=status.HTTP_400_BAD_REQUEST)
+    if not pm10:
+        return Response('Please provide pm10', status=status.HTTP_400_BAD_REQUEST)
+    if not nh3:
+        return Response('Please provide nh3', status=status.HTTP_400_BAD_REQUEST)
+
+    filter_criteria.append(float(co))
+    filter_criteria.append(float(no)) 
+    filter_criteria.append(float(no2))
+    filter_criteria.append(float(o3))
+    filter_criteria.append(float(so2)) 
+    filter_criteria.append(float(pm2_5))
+    filter_criteria.append(float(pm10))
+    filter_criteria.append(float(nh3))
     
     # Ensure the correct path to the model file
-    model_path = os.path.join(os.path.dirname(__file__), '../aimodels/earthquake_model.pkl')
+    model_path = os.path.join(os.path.dirname(__file__), '../aimodels/airquality_model.pkl')
     
     try:
         with open(model_path, 'rb') as model_file:
