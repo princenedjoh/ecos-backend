@@ -133,7 +133,6 @@ def get_airquality(request):
     pm10 = request.query_params.get('pm10')
     nh3 = request.query_params.get('nh3')
 
-    print('hello')
     if not co:
         return Response('Please provide co', status=status.HTTP_400_BAD_REQUEST)
     if not no:
@@ -162,6 +161,42 @@ def get_airquality(request):
     
     # Ensure the correct path to the model file
     model_path = os.path.join(os.path.dirname(__file__), '../aimodels/airquality_model.pkl')
+    
+    try:
+        with open(model_path, 'rb') as model_file:
+            model = pickle.load(model_file)
+        arr = np.array([filter_criteria])
+        output = model.predict(arr)
+        return Response(output[0], status=status.HTTP_200_OK)
+    except FileNotFoundError:
+        return Response('Model file not found', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+
+@api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+def get_river_discharge(request):
+    filter_criteria = []
+
+    temperature = request.query_params.get('temperature')
+    precipitation = request.query_params.get('precipitation')
+    previous_discharge = request.query_params.get('previous_discharge')
+
+    if not temperature:
+        return Response('Please provide temperature', status=status.HTTP_400_BAD_REQUEST)
+    if not precipitation:
+        return Response('Please provide precipitation', status=status.HTTP_400_BAD_REQUEST)
+    if not previous_discharge:
+        return Response('Please provide previous_discharge', status=status.HTTP_400_BAD_REQUEST)
+
+    filter_criteria.append(float(temperature))
+    filter_criteria.append(float(precipitation)) 
+    filter_criteria.append(float(previous_discharge))
+    
+    # Ensure the correct path to the model file
+    model_path = os.path.join(os.path.dirname(__file__), '../aimodels/river_discharge.pkl')
     
     try:
         with open(model_path, 'rb') as model_file:

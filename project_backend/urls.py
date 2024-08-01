@@ -90,4 +90,5 @@ urlpatterns = [
     path("ai/earthquake/get/", aimodel_controller.get_earthquake, name="get_earthquake"),
     path("ai/deforestation/get/", aimodel_controller.get_deforestation, name="get_deforestation"),
     path("ai/airquality/get/", aimodel_controller.get_airquality, name="get_airquality"),
+    path("ai/riverDischarge/get/", aimodel_controller.get_river_discharge, name="get_river_discharge"),
 ]
