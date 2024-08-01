@@ -3,3 +3,5 @@ djangorestframework
 djangorestframework-simplejwt
 numpy
 scikit-learn
+reportlab
+io
