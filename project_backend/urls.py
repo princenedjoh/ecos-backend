@@ -12,6 +12,7 @@ from project_backend.controllers import reply_like_controller
 from project_backend.controllers import missions_controller
 from project_backend.controllers import settings_controller
 from project_backend.controllers import aimodel_controller
+from project_backend.controllers import create_report_controller
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -91,4 +92,7 @@ urlpatterns = [
     path("ai/deforestation/get/", aimodel_controller.get_deforestation, name="get_deforestation"),
     path("ai/airquality/get/", aimodel_controller.get_airquality, name="get_airquality"),
     path("ai/riverDischarge/get/", aimodel_controller.get_river_discharge, name="get_river_discharge"),
+
+    #reports urls
+    path("report/generate/", create_report_controller.generate_pdf_report, name="generate_pdf_report"),
 ]
